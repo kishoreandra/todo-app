@@ -40,7 +40,7 @@ const ShowTodos = ({ todo, saveTodo }) => {
                   onChange={(e) => onTodoChange(e, idx)}
                 />
               ) : (
-                <input type="text" value={t} />
+                <input type="text" value={t} readOnly={true} />
               )}
             </div>
             <div className="show-todos-icons">
@@ -53,24 +53,16 @@ const ShowTodos = ({ todo, saveTodo }) => {
                   className="trash alternate outline icon right floated"
                 ></i>
               </div>
-              <div
-                className="ui icon button"
-                dataContent="Add users to your feed"
-              >
+              <div className="ui icon button">
                 <i
                   onClick={() => onSave(idx)}
                   className="save outline icon right floated"
-                  placeholder="Save"
                 ></i>
               </div>
-              <div
-                className="ui icon button"
-                data-content="Add users to your feed"
-              >
+              <div className="ui icon button">
                 <i
                   onClick={() => onEdit(idx)}
                   className="edit icon right floated"
-                  placeholder="Edit"
                 ></i>
               </div>
             </div>

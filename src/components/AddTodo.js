@@ -1,10 +1,22 @@
 import "./AddTodo.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ShowTodos from "./ShowTodos";
 
 const AddTodo = () => {
   const [todo, setTodo] = useState([]);
   const [todoValue, setTodoValue] = useState("");
+
+  useEffect(() => {
+    const getStoredTodos = JSON.parse(localStorage.getItem("storedTodos"));
+    if (getStoredTodos) {
+      setTodo(getStoredTodos);
+    }
+  }, []);
+
+  useEffect(() => {
+    const json = JSON.stringify(todo);
+    localStorage.setItem("storedTodos", json);
+  }, [todo]);
 
   const onAddTodo = () => {
     todo.length === 0 ? setTodo([todoValue]) : setTodo([...todo, todoValue]);
