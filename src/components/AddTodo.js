@@ -3,16 +3,15 @@ import React, { useState } from "react";
 import ShowTodos from "./ShowTodos";
 
 const AddTodo = () => {
-  const [todo, setTodo] = useState("");
+  const [todo, setTodo] = useState([]);
   const [todoValue, setTodoValue] = useState("");
 
   const onAddTodo = () => {
-    setTodo(todoValue);
+    todo.length === 0 ? setTodo([todoValue]) : setTodo([...todo, todoValue]);
     setTodoValue("");
   };
 
   const onTodoWrite = (e) => {
-    console.log(e.target.value);
     setTodoValue(e.target.value);
   };
 
@@ -21,6 +20,7 @@ const AddTodo = () => {
       e.preventDefault();
     }
   };
+
   return (
     <form className="ui form">
       <h2>Add a Todo Item</h2>

@@ -1,8 +1,11 @@
 .show-todos-input {
-  width: 80%;
+  width: 70%;
+  vertical-align: middle;
+  padding: 30px 0;
 }
 
 .show-todos-icons {
   display: inline-block;
-  margin-left: 26px;
+  margin-left: 50px;
+  vertical-align: middle;
 }

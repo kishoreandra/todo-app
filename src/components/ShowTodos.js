@@ -1,47 +1,87 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import "./ShowTodos.css";
 
 const ShowTodos = ({ todo, saveTodo }) => {
-  const ref = useRef();
+  const [editedTodo, setEditedTodo] = useState("");
+  const [editing, setEditing] = useState(null);
 
-  const onDelete = () => {
-    saveTodo("");
+  const onDelete = (idx) => {
+    const filtered = todo.filter((t, i) => i !== idx);
+    saveTodo(filtered);
   };
-  const onSave = () => {
-    ref.current.readOnly = true;
+  const onSave = (idx) => {
+    const updatedTodos = todo.map((t) => {
+      if (idx === t.idx) {
+        t = editedTodo;
+      }
+      return t;
+    });
+    saveTodo(updatedTodos);
+    setEditing(null);
+    setEditedTodo("");
   };
-  const onEdit = () => {
-    ref.current.readOnly = false;
+  const onEdit = (idx) => {
+    setEditing(idx);
   };
-  const onTodoEdit = (e) => {
-    saveTodo(e.target.value);
+  const onTodoChange = (e, idx) => {
+    setEditedTodo(e.target.value);
   };
 
-  return (
-    <div className="ui celled list">
-      <div className="item">
-        <div className="content">
-          <div className="ui input show-todos-input">
-            <input
-              ref={ref}
-              type="text"
-              readOnly={true}
-              value={todo}
-              onChange={onTodoEdit}
-            />
-          </div>
-          <div className="show-todos-icons">
-            <i
-              onClick={onDelete}
-              className="trash alternate outline icon right floated"
-            ></i>
-            <i onClick={onSave} className="save outline icon right floated"></i>
-            <i onClick={onEdit} className="edit icon right floated"></i>
+  const todoList = todo.map((t, idx) => {
+    if (t) {
+      return (
+        <div className="item" key={[t, idx].join("_")}>
+          <div className="content">
+            <div className="ui input show-todos-input">
+              {editing === idx ? (
+                <input
+                  type="text"
+                  value={editedTodo}
+                  onChange={(e) => onTodoChange(e, idx)}
+                />
+              ) : (
+                <input type="text" value={t} />
+              )}
+            </div>
+            <div className="show-todos-icons">
+              <div
+                className="ui icon button"
+                data-content="Add users to your feed"
+              >
+                <i
+                  onClick={() => onDelete(idx)}
+                  className="trash alternate outline icon right floated"
+                ></i>
+              </div>
+              <div
+                className="ui icon button"
+                dataContent="Add users to your feed"
+              >
+                <i
+                  onClick={() => onSave(idx)}
+                  className="save outline icon right floated"
+                  placeholder="Save"
+                ></i>
+              </div>
+              <div
+                className="ui icon button"
+                data-content="Add users to your feed"
+              >
+                <i
+                  onClick={() => onEdit(idx)}
+                  className="edit icon right floated"
+                  placeholder="Edit"
+                ></i>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
+      );
+    } else {
+      return null;
+    }
+  });
+  return <div className="ui celled list">{todoList}</div>;
 };
 
 export default ShowTodos;
